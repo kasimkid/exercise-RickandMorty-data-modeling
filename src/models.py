@@ -12,7 +12,7 @@ Base = declarative_base()
 class Favorite (Base):
     __tablename__ = 'favorite'
     favoriteID = Column(Integer, primary_key=True)
-    characterID = Column(Integer,ForeignKey('character.characterID'))
+    characterID = Column(Integer, ForeignKey('character.characterID'))
     nicknameID = Column(Integer, ForeignKey('register.registerID'))
 
 
@@ -32,17 +32,20 @@ class Character(Base):
     episode = Column(String(50),nullable=False)
     location = Column(String(50),nullable=False)
     favoriteID = relationship('Favorite')
+    Dimension = relationship ('Dimension')
 
 class Episode(Base):
     __tablename__ = 'episode'
     episodeID = Column(Integer, primary_key=True)
     name = Column(String(50),nullable=False)
     episode = Column(String(700),nullable=False)
+    character = Column(Integer, ForeignKey('character.characterID'))
     favoriteID = relationship('Favorite')
 
 class Dimension (Base):
     __tablename__ = 'dimension'
     dimensionID = Column(Integer, primary_key=True)
+    character = Column(Integer, ForeignKey('character.characterID'))
     favoriteID = relationship('Favorite')
 
     
@@ -64,8 +67,8 @@ class Dimension (Base):
 #     person_id = Column(Integer, ForeignKey('person.id'))
 #     person = relationship(Person)
 
-    def to_dict(self):
-        return {}
+    # def to_dict(self):
+    #     return {}
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
